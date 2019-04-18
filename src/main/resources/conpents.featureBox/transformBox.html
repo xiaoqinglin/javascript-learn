@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旋转图片rotate</title>
+</head>
+
+<style type="text/css">
+    .features-box p {
+        font-size: .8em;
+        line-height: 1em;
+        padding: 0;
+    }
+
+    .feature-box-image {
+        margin: 0 auto 1em auto; /*外边距：上右下左*/
+        width: 120px;
+        height: 107px;
+        overflow: hidden; /*如果元素中的内容超出了给定的宽度和高度属性，overflow 属性可以确定是否显示滚动条等行为。
+                            scroll、hidden、auto、visible(默认)*/
+    }
+
+    .cross-browser .feature-box-image{
+        background: url('images/feature-sprites.png') -278px 0 no-repeat;/*图片选择*/
+        transition: all 0.4s; /*过渡动画行为*/
+        position: relative;
+        z-index: 10;
+    }
+    /*鼠标悬浮图片时*/
+    .cross-browser .feature-box-image:hover {
+        transition: all 0.7s;
+        -webkit-transform: rotate(6.28rad); /*webkit 只对safari浏览器 水平旋转 顺时针6.28rad*/
+        -ms-transform: rotate(6.28rad);     /*-ms 针对IE浏览器*/
+        transform: rotate(6.28rad);
+    }
+</style>
+<body>
+
+<div class="features-box">
+    <div class="feature-box cross-browser">
+        <div class="feature-box-image"></div>
+        <h3 align="center">Cross-Browser</h3>
+        <p align="center"><a href="javascript:;">Chrome, Edge, Firefox, IE, Safari, Android, iOS, and more</a></p>
+    </div>
+</div>
+
+</body>
+</html>

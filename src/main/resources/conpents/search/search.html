@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>查询样式</title>
+    <link rel="stylesheet" href="search.css">
+
+    <script src="../../js/jQuery.js"></script>
+    <script src="search.js"></script>
+    <style type="text/css">
+
+        .test{
+            width: 100%;
+            height: 300px;
+            overflow: auto;
+            float: left;
+            margin: 5px;
+            border: none;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="test">
+    <div class="indheader">
+        <div class="searchwd fl">
+            <div class="search">
+                <input type="text" class="webtxt" value="" placeholder="搜你喜欢"  data-type="single"  onkeypress="return headerKeyPress(event,'headersearchWord1')"/>
+                <input type="button" value="搜   索" class="webtn" id="headersearchWord1"/>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div style="color:rebeccapurple;font-size: 16px; "> 滚动条向下滑动，界面头部的搜索框消失后，触发悬浮的搜索框</div>
+        <pre>
+        当内容超出容器时，容器会出现滚动条，其自带的滚动条有时无法满足我们审美要求，那么我们可以通过css伪类来实现对滚动条的自定义。
+
+        首先我们要了解滚动条。滚动条从外观来看是由两部分组成：
+        1，可以滑动的部分，我们叫它滑块
+        2，滚动条的轨道，即滑块的轨道，一般来说滑块的颜色比轨道的颜色深。
+        滚动条的css样式主要有三部分组成：
+
+　　      1、::-webkit-scrollbar   定义了滚动条整体的样式；
+
+          2、::-webkit-scrollbar-thumb  滑块部分；
+
+　        3、::-webkit-scrollbar-thumb  轨道部分；
+
+
+        $(window).scrollTop()和$(document).scrollTop()具有相同的效果，
+         都为返回滚动条的垂直位置,但是$(window).scrollTop()被所有浏览器支持。
+        单独来说：
+        $(document)是获取文档对象
+        $(window)是获取窗口对象
+
+
+        </pre>
+        <p>目前滚动条的垂直位置为 <span>0</span> px。</p>
+    </div>
+    <div class="minheader">
+        <div class="wrap clearfix">
+            <div class="search fl">
+                <input type="text" class="webtxt" value="" placeholder="搜你喜欢"  data-type="single"  onkeypress="return headerKeyPress(event,'headersearchWord2')"/>
+                <input type="button" value="搜   索" class="webtn" id="headersearchWord2"/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

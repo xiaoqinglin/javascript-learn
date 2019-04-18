@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ext首页</title>
+    <link rel="stylesheet" href="../static/extjs/resources/css/ext-all.css">
+    <script src="../js/jQuery.js"></script>
+
+    <script src="../static/extjs/adapter/ext/ext-base.js"></script>
+    <script src="../static/extjs/ext-all.js"></script>
+    <script src="../static/extjs/resources/TabCloseMenu.js"></script>
+
+</head>
+<script>
+    var viewPort = null;
+    Ext.onReady(function(){
+        viewPort = new Ext.Viewport({
+            layout:"border",
+            items:[
+                {
+                    xtype:"tabpanel",
+                    region:"north",
+                    height:50,
+                    title:"顶部面板",
+                    scripts:true,
+                    html:"<iframe scrolling='auto' frameborder='0' width='100%' height='100%' " +
+                        "src='./index_nonth.html'> </iframe>",
+                    closable:true            //是否可关闭
+                },
+                {
+                    region:"south",
+                    height:50,
+                    title:"底部面板",
+                    collapsible:true  //是不是可以折叠
+
+                },
+                {
+                    xtype:"tabpanel",
+                    region:"center",
+                    id:'centerId',
+                    title:"中央面板",
+                    items:[
+                        {
+                            title:"首页",
+                            html: 'The first tab\'s content. Others may be added dynamically'
+                        }
+                    ],
+                    plugins:new Ext.ux.TabCloseMenu() //关闭tab
+                },
+                {
+                    xtype:"treepanel",
+                    region:"west",
+                    collapsible:true, //是不是可以折叠
+                    width:200,
+                    title:"菜单",
+                    autoScroll:true,
+                    split:true,
+                    loader:new Ext.tree.TreeLoader(),
+                    root:new Ext.tree.AsyncTreeNode({
+                        expanded:true,
+                        children:[
+                            {
+                                text:'BUTTON控件',
+                                id:"100000",
+                                src:"./buttonManage.html",
+                                leaf:true
+                            },
+                            {
+                                text:'表格控件',
+                                id:"100001",
+                                src:'./tableGrid.html',
+                                leaf:true
+                            }
+                        ]
+                    }),
+                    rootVisible:false,
+                    listeners:{
+                        click:function (n) {
+                          //  Ext.Msg.alert('Navigation Tree Click', 'You clicked: "' + n.attributes.id + '"');
+
+                            //内容面板添加tab
+                            var centerPanel = Ext.getCmp('centerId');
+                            var tabItem = Ext.getCmp(n.attributes.id);
+                            if(centerPanel != null && tabItem == null){
+                                tabItem = centerPanel.add({
+                                    id:  n.attributes.id,
+                                    title: n.attributes.text,
+                                    autoScroll:true,
+                                    frame:true,
+                                    /*改写成用html*/
+                                  /*  loader:{
+                                        url:n.attributes.src,
+                                        renderer: "frame"
+                                    },*/
+
+                                    showMask: true,
+                                    maskMsg: '正在加载',
+                                    scripts:true,
+                                    html:"<iframe scrolling='auto' frameborder='0' width='100%' height='100%' " +
+                                        "src='"+n.attributes.src+"'> </iframe>",
+                                    closable:true            //是否可关闭
+
+                                });
+
+                            }
+                            centerPanel.setActiveTab(tabItem);
+                        }
+                      /*  ,
+                        dblclick:function(n){
+                            alert('你双击了'+n);
+                        },
+                        expandnode:function(node){
+                            alert(node+'展开了'+node.attributes.text);
+                        },
+                        collapsenode:function(node){
+                            alert(node+'折叠了'+node.attributes.text);
+                        }*/
+                    }
+
+                },
+                {
+                    region:"east",
+                    width:150,
+                    title:"右边面板",
+                    collapsible:true  //是不是可以折叠
+                }
+
+            ]
+        });
+    });
+</script>
+<body>
+
+</body>
+</html>

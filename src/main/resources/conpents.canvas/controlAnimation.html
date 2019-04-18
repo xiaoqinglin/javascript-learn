@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>控制动画-太阳系</title>
+
+    <style type="text/css">
+        /*黑洞*/
+        element.style {
+            display: block;
+            width: 0px;
+            height: 0px;
+            animation: rotates 15s linear 0s infinite normal none running;
+            position: fixed;
+            z-index: 302;
+            left: 326px;
+            top: 272px;
+            padding: 0px;
+        }
+        table, img {
+            border: 0;
+        }
+        img.ops-blackhole {
+        }
+
+        @-webkit-keyframes rotates {
+            0%
+            {
+                -webkit-transform: rotate(0deg);
+            }
+            100%
+            {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+    </style>
+
+    <script src="../js/jQuery.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            var sun;  //太阳
+            var earth;//地球
+            var moon; //月亮
+            var ctx;  //渲染上下文2d
+
+            init();
+
+            function init() {
+                //图片
+                sun = new Image();
+                earth = new Image();
+                moon = new Image();
+
+                sun.src = "blackhole.png";
+                earth.src="../conpents.bar/images/qqkf_icon.png";
+                moon.src = "../conpents.bar/images/vip.png";
+
+                //获取画布
+                var canvas = document.querySelector("#solar");//document.getElementById('solar');
+
+                //设置画布宽、高
+                canvas.height = 300;
+                canvas.width = 300;
+
+                //获取2D
+                ctx = canvas.getContext("2d");
+                //绘制
+                sun.onload = function () {
+                    draw();
+                }
+
+            }
+
+            function draw() {
+                //在绘制每一帧动画前，清空canvas
+                ctx.clearRect(0,0,300,300);
+                //绘制太阳
+                ctx.drawImage(sun,0,0,300,300);
+                ctx.save();
+                ctx.translate(150,150);//将新的 (0,0) 位置设置为 (150,150)
+
+                //绘制地球轨迹 圆形
+                /*1.绘制路径*/
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255,255,0,0.5)";
+                ctx.arc(0, 0, 100, 0, 2 * Math.PI);
+                ctx.stroke(); //通过线条来绘制图形轮廓
+
+                //时间设置
+                var time = new Date();
+
+                //绘制地球 先旋转，在重置位置，再绘制
+                ctx.rotate(2 * Math.PI / 60 * time.getSeconds() + 2 * Math.PI / 60000 * time.getMilliseconds());
+                ctx.translate(100, 0);//将新的 (x,y) 位置设置为 (100,0)
+                ctx.drawImage(earth, -12, -12);
+
+               //绘制月球轨迹 圆形
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255,255,255,0.8)";
+                ctx.arc(0, 0, 40, 0, 2*Math.PI);
+                ctx.stroke();
+
+                //绘制月球
+                ctx.rotate(2 * Math.PI / 6 * time.getSeconds() + 2 * Math.PI / 6000 * time.getMilliseconds());
+                ctx.translate(40, 0);
+                ctx.drawImage(moon, -10, -10);
+                //保存canvas
+                ctx.restore();
+                //执行动画，重绘
+                window.requestNextAnimationFrame(draw);
+            }
+
+            //重构重绘
+            window.requestNextAnimationFrame = (function(){
+                var originalWebkitMethod,
+                    wrapper = undefined,
+                    callback = undefined,
+                    geckoVersion = 0,
+                    userAgent = navigator.userAgent,
+                    index = 0,
+                    self = this;
+                if(window.webkitRequestAnimationFrame){
+                    wrapper = function(time){
+                        if(time === undefined){
+                            time += new Date();
+                        }
+                        self.callback(time);
+                    };
+                    originalWebkitMethod = window.webkitRequestAnimationFrame;
+                    window.webkitRequestAnimationFrame = function(callback,element){
+                        self.callback = callback;
+                        originalWebkitMethod(wrapper , element);
+                    }
+                }
+                if(window.mozRequestAnimationFrame){
+                    index = userAgent.indexOf('rv:');
+                    if(userAgent.indexOf('Gecko') != -1){
+                        geckoVersion = userAgent.substr(index+3 , 3);
+                        if(geckoVersion === '2.0'){
+                            window.mozRequestAnimationFrame = undefined;
+                        }
+                    }
+                }
+
+
+                return window.requestNextAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+
+
+                    function (callback , element){
+                        var start,
+                            finish;
+                        window.setTimeout(function(){
+                            start = +new Date();
+                            callback(start);
+                            finish = +new Date();
+                            self.timeout = 1000/60 - (finish - start);
+                        } , self.timeout);
+                    };
+            })();
+
+
+
+            /*黑洞*/
+            var img = document.getElementById('img');
+            var flag = true;
+            setInterval(function(){
+                var imgWidth = img.style.width;
+                var imgHeight = img.style.height;
+                var tempWidth = imgWidth.substring(0,imgWidth.length-2);
+                var tempHeight = imgWidth.substring(0,imgHeight.length-2);
+                if((flag && tempWidth < 1500) || parseInt(tempWidth) == 0 ){
+                    img.style.width = (tempWidth != 0 ? parseInt(tempWidth) : 0) + Math.random()*100 + 'px';
+                    img.style.height = (tempHeight != 0 ? parseInt(tempHeight) : 0) + Math.random()*100 + 'px';
+                    flag = true;
+                }else{
+                    img.style.width = parseInt(tempWidth) - Math.random()*10 + 'px';
+                    img.style.height = parseInt(tempHeight) - Math.random()*10 + 'px';
+                    flag = false;
+                }
+                img.style.left = Math.random()*img.style.width - Math.random()*img.style.width/2 + 'px';
+                img.style.top = Math.random()*img.style.height - Math.random()*img.style.height/2 + 'px';
+            },10);
+
+        });
+
+
+
+    </script>
+
+</head>
+
+<body>
+    <!--太阳系-->
+    <canvas id="solar" class="solar"></canvas>
+
+    <!--超级黑洞-->
+    <img id="img" src="blackhole.png" class="ops-blackhole" style="display: block;
+     width: 0px; height: 0px;
+     animation: rotates 15s linear 0s infinite normal none running;
+     position: fixed; z-index: 302; left: 326px; top: 272px; padding: 0px;" />
+
+        <pre>
+        动画的基本步骤:
+    1. 清空 canvas 再绘制每一帧动画之前，需要清空所有。清空所有最简单的做法就是 clearRect() 方法。
+    2. 保存 canvas 状态 如果在绘制的过程中会更改 canvas 的状态(颜色、移动了坐标原点等),又在绘制每一帧时都是原始状态的话，则最好保存下 canvas 的状态
+    绘制动画图形这一步才是真正的绘制动画帧
+    3. 恢复 canvas 状态如果你前面保存了 canvas 状态，则应该在绘制完成一帧之后恢复 canvas 状态。
+
+        我们可用通过 canvas 的方法或者自定义的方法把图像会知道到 canvas 上。正常情况，我们能看到绘制的结果是在脚本执行结束之后。例如，我们不可能在一个 for 循环内部完成动画。
+        也就是，为了执行动画，我们需要一些可以定时执行重绘的方法。
+        一般用到下面三个方法：
+        setInterval()
+        setTimeout()
+        requestAnimationFrame()
+        </pre>
+    </p>
+
+</body>
+</html>
