@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript:前缀</title>
+    <script src="../js/jQuery.js"></script>
+    <script src="js/ADS.js"></script>
+    <style type="text/css">
+        /*CSS Reset*/
+        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+            margin:0;
+            padding:0;
+        }
+        ol,ul {
+            list-style: circle;
+        }
+        textarea{
+            border: none;
+
+        }
+        caption,th {
+            text-align:left;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: KulminoituvaRegular, "Arial Black", Gadget, sans-serif;
+            font-size:1.5em;
+        }
+        ul#index_cards li {
+            background: #60a34d;
+            height:auto;
+            width:718px;
+            display:block;
+            float:left;
+            border:1px solid #666;
+            padding:25px 10px;
+            position:relative;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-box-shadow: 2px 2px 10px #000;
+            -webkit-box-shadow: 2px 2px 10px #000;
+            -moz-transition: all 0.5s ease-in-out;
+            -webkit-transition: all 0.5s ease-in-out;
+            margin-bottom:40px;
+        }
+        .code{
+            background: #b0ffc7;
+            height:auto;
+            width:680px;
+            display:block;
+            float:left;
+            border:1px solid #661a61;
+            padding:15px 5px 10px 5px;
+            position:relative;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-box-shadow: 2px 2px 10px #000;
+            -webkit-box-shadow: 2px 2px 10px #000;
+            -moz-transition: all 0.5s ease-in-out;
+            -webkit-transition: all 0.5s ease-in-out;
+            margin-top: 10px;
+            margin-bottom:10px;
+        }
+        .s1{
+            background-color:#9CBFEE;
+            width:680px;
+            height: auto;
+            display:block;
+            float:left;
+            border:1px solid #661a61;
+            padding:15px 10px;
+
+        }
+    </style>
+
+    <script type="application/javascript">
+        function popup(url) {
+            window.open(url);
+            //无返回值
+        }
+    </script>
+
+    <script type="application/javascript">
+        $(function () {
+            ADS.addEvent(window,'load',function (thisEvent) {
+                //查找文档中带有popup类的所有锚标签
+                var popups = ADS.getElementsByClassName('popup','a');
+                for (var i=0; i<popups.length; i++){
+                    //为每个锚添加单击事件监听器
+                    ADS.addEvent(popups[i],'click', function (thisEvent) {
+                        //使用href属性打开窗口
+                        window.open(this.href);
+
+                        //取消锚标签a默认事件
+                        ADS.preventDefault(thisEvent);
+                    })
+                }
+            });
+        });
+    </script>
+
+
+</head>
+<body>
+<h3>通过锚标签(a)打开一个页面</h3>
+<p>
+    <span style="color:#ff7870">
+        javascript:前缀在元素中的使用，弹出式窗口
+    </span>
+</p>
+<ul  id="index_cards">
+    <li>
+        <section>
+            <h1>
+                使用锚标签a中的target
+            </h1>
+            <div class="code">
+                <p><a href="http://www.baidu.com" target="_blank">点我点我</a></p>
+                <textarea rows="1" cols="90">
+                   <a href="http://www.baidu.com" target="_blank">点我点我</a>
+                </textarea>
+            </div>
+            <div class="s1">
+                如果在严格型DOCTYPE规范，那么锚标签a中的<span style="color:#ff7870">_blank</span>无效。
+            </div>
+        </section>
+    </li>
+    <li>
+        <section>
+            <h1>
+                使用javascript:前缀,window.open
+            </h1>
+            <div class="code">
+                <p><a href="javascript:window.open('http://www.baidu.com');">点我点我</a></p>
+                <p><a href="javascript:popup('http://www.baidu.com');">点我点我</a></p>
+                <textarea rows="3" cols="90">
+                   <a href="javascript:window.open('http://www.baidu.com');">点我点我</a>
+                    or
+                    <a href="javascript:popup('http://www.baidu.com');">点我点我2</a>
+                </textarea>
+            </div>
+            <div class="s1">
+                javascript:前缀有一个问题，正常情况下只能处理一个函数。而且，如果函数有返回值，原先的页面会被返回的结果覆盖。
+                chrome目前浏览器拦截<span style="color:#ff7870">已拦截弹出式窗口</span>无效。
+            </div>
+        </section>
+    </li>
+    <li>
+        <section>
+            <h1>
+                使用onclick属性直接打开URL（编写嵌入式事件监听器）
+            </h1>
+            <div class="code">
+                <p><a href="https://github.com" onclick="window.open('http://www.baidu.com'); return false;">点我点我</a></p>
+                <p> <a href="https://github.com" onclick="this.href='javascript:popup(\'http://www.baidu.com\');'">点我点我2</a>
+                </p>
+                <textarea rows="3" cols="90">
+                    <a href="https://github.com" onclick="window.open('http://www.baidu.com');return false;">点我点我</a>
+                    通过onclick修改href中的URL。
+                    <a href="https://github.com" onclick="this.href='javascript:popup(\'http://www.baidu.com\');'">点我点我2</a>
+
+                </textarea>
+            </div>
+            <div class="s1">
+                使用onclick属性直接打开URL。在一个常规的锚链接被击中时，浏览器会正常执行锚的默认动作（直接打开href中的路径）。
+                然而，处理单击等这种交互动作时，必须先执行onclick事件，而不让浏览器执行默认动作。
+                <textarea rows="2" cols="90">
+                      <a href="https://github.com" onclick="this.href='javascript:popup(\'http://www.baidu.com\');'">点我点我2</a>
+                </textarea>
+                <p>执行脚本顺序：</p>
+                <p>1. onclick事件，将href的值替换;</p>
+                <p> 2. 以新href执行锚标签默认动作--打开href，执行弹窗，打开指定的url.</p>
+                <hr/>
+                <textarea rows="2" cols="90">
+                       <a href="https://github.com" onclick="window.open('http://www.baidu.com');return false;">点我点我</a>
+                </textarea>
+                <p>执行脚本顺序：</p>
+                <p>1. onclick事件，打开指定url的弹窗；</p>
+                <p>2. 返回false，阻止锚标签的默认动作。</p>
+                <hr/>
+                <span style="color: #ff7870">编写嵌入式事件监听器:避免直接使用在href中调用javascript:前缀，而是使用适当的函数赋值给事件属性</span>
+            </div>
+        </section>
+    </li>
+    <li>
+        <section>
+            <h1>
+                window载入时添加事件处理程序（best）
+            </h1>
+            <div class="code">
+                <p>
+                    <a href="http://www.baidu.com" class="popup">点我点我</a>
+                </p>
+
+                <textarea rows="18" cols="90">
+    <a href="http://www.baidu.com" class="popup">点我点我</a>
+    script脚本，可以写在外部js:
+    <script type="application/javascript">
+        $(function () {
+            ADS.addEvent(window,'load',function (thisEvent) {
+                //查找文档中带有popup类的所有锚标签
+                var popups = ADS.getElementsByClassName('popup','a');
+                for (var i=0; i<popups.length; i++){
+                    //为每个锚添加单击事件监听器
+                    ADS.addEvent(popups[i],'click', function (thisEvent) {
+                        //使用href属性打开窗口
+                        window.open(this.href);
+
+                        //取消锚标签a默认事件
+                        ADS.preventDefault(thisEvent);
+                    })
+                }
+            });
+        });
+    </script>
+
+                </textarea>
+            </div>
+            <div class="s1">
+                <p>将行为从结构化标记中分离出来。</p>
+                <p>通过嵌入式事件来处理，通过window载入时添加事件处理程序，不唐突。</p>
+            </div>
+        </section>
+    </li>
+</ul>
+
+</body>
+</html>
