@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getElementsByClassName example</title>
+    <script src="../js/jQuery.js"></script>
+    <script src="js/myADS.js"></script>
+    <script type="application/javascript">
+        function getElementsByClassName1(className){
+           // var matchingElements = ADS.getElementsByClassName(className,'*',ADS.$('list'));
+            var matchingElements = ADS.getElementsByClassName(className,'*',document);
+            for (var i=0; i < matchingElements.length; i++){
+                alert(matchingElements[i].className);
+            }
+
+        }
+    </script>
+
+</head>
+<body>
+<header>
+    <h1>通过类名获取符合条件的元素</h1>
+</header>
+<section>
+        <p class="findme">ppppppppppppppp</p>
+        <ul id="list">
+            <li class="findme">emergency</li>
+            <li class="findme">endorse</li>
+            <li class="findme">energy</li>
+        </ul>
+        <button onclick="getElementsByClassName1('findme')">点击获取所有符合findme的值</button>
+</section>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包问题</title>
+    <script src="../js/jQuery.js"></script>
+    <script src="js/myADS.js"></script>
+
+    <script>
+        ADS.addEvent(window,'load',init);
+        function init(){
+
+            //错误做法
+            for(var i=1; i <=3; i++){
+                var element = document.createElement('input');
+                element.type = "button";
+                element.value = "button"+i;
+
+                ADS.insertAfter(element,'error');
+
+                ADS.addEvent(element,'click',function () {
+                    alert('my id is '+i);
+                });
+            }
+
+            //正确做法
+            for(var i=1; i <=3; i++){
+                var element = document.createElement('input');
+                element.type = "button";
+                element.value = "button"+i;
+
+                ADS.$('success').appendChild(element);
+
+               clickListener(element, i);
+            }
+        }
+
+        //额外的函数才能维护适当的变量作用域
+        function clickListener(element, i) {
+            ADS.addEvent(element,'click',function () {
+                alert('my id is '+i);
+            });
+        }
+
+    </script>
+</head>
+<body>
+<section>
+    <p>将方法动态赋值给对象时，必须使用额外的函数才能维护适当的变量作用域。</p>
+    <p>使用传参的形式维护每个实例的变量作用域，使得内部作用域都有一个唯一的值。</p>
+    <h1>错误做法</h1>
+    <section id="error"></section>
+    <h1>正确做法</h1>
+    <section id="success"></section>
+</section>
+
+</body>
+</html>

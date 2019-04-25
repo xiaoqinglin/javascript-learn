@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试-对节点的增删改</title>
+    <script src="../js/jQuery.js"></script>
+    <script src="js/myADS.js"></script>
+    <script>
+        function myInsertAfter() {
+            var newNode = document.createElement('li');
+            var textNode = document.createTextNode('newNode insert after');
+            ADS.prependChild(newNode,textNode);
+            if(ADS.$('li1')){
+                ADS.insertAfter(newNode, ADS.$('li1'));
+            }else{
+                ADS.$('parent').appendChild(newNode);
+                newNode.setAttribute('id','li1');
+            }
+
+        }
+
+        function myInsertBefore() {
+            var newNode = document.createElement('li');
+            var textNode = document.createTextNode('newNode insert before ');
+            ADS.prependChild(newNode,textNode);
+            if(ADS.$('li1')){
+                ADS.$('li1').parentNode.insertBefore(newNode,ADS.$('li1'));
+            }else{
+                ADS.$('parent').appendChild(newNode);
+                newNode.setAttribute('id','li1');
+            }
+        }
+
+        function myRemoveChild() {
+           // var parent = document.getElementById('parent');
+            ADS.removeChildren('parent');
+        }
+    </script>
+</head>
+<body>
+<header>
+    <h1>对节点增删改</h1>
+    <ul id="parent">
+        <li id="li1">第一个节点</li>
+    </ul>
+    <button onclick="myInsertAfter()">节点后添加</button>
+    <button onclick="myInsertBefore()">节点前添加</button>
+    <button onclick="myRemoveChild()">删除</button>
+</header>
+
+</body>
+</html>
