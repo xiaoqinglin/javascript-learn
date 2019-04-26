@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象事件-onload\error</title>
+    <script src="js/myADS.js"></script>
+    <script>
+        ADS.addEvent(window,'load',function () {
+
+            //创建一个图像
+            var newImg = document.createElement('img');
+            //设置属性
+            newImg.setAttribute('src', '../examples/images/t9dog2_trans.png');
+            //将图片添加到主体 document.body.appendChild(newImg);
+            ADS.addEvent(newImg, 'load', function () {
+               // document.body.appendChild(newImg);
+                ADS.$('exit').appendChild(newImg);
+            });
+            //如果载入时出错则添加相关提示信息
+            ADS.addEvent(newImg,'error',function () {
+                var msg = document.createTextNode('图片加载失败，这是不可能的！');
+                //document.body.appendChild(msg);
+                ADS.$('exit').appendChild(msg);
+            });
+
+            //创建一个图像
+            var newImgMissing = document.createElement('img');
+            //设置属性
+            newImgMissing.setAttribute('src', '../examples/images/missing.png');
+            //将图片添加到主体 document.body.appendChild(newImg);
+            ADS.addEvent(newImgMissing, 'load', function () {
+               // document.body.appendChild(newImgMissing);
+                ADS.$('miss').appendChild(newImgMissing);
+            });
+            //如果载入时出错则添加相关提示信息
+            ADS.addEvent(newImgMissing,'error',function () {
+                var msg = document.createTextNode('图片加载失败！'+'../examples/images/missing.png');
+               // document.body.appendChild(msg);
+                ADS.$('miss').appendChild(msg);
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <SECTION id="exit">
+        <h1>图片成功加载</h1>
+    </SECTION>
+    <SECTION id="miss">
+        <h1>图片加载时报错</h1>
+    </SECTION>
+</body>
+</html>
